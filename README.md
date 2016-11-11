@@ -18,7 +18,7 @@ Notes:
 
 Walkthrough of all user stories:
 
-![Video Walkthrough](anim_rotten_tomatoes.gif)
+![Video Walkthrough](flickster_demo.gif)
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
