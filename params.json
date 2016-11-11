@@ -1,0 +1,6 @@
+{
+  "name": "Flickster",
+  "tagline": "CoderPath Assignment",
+  "body": "# Flickster\r\n\r\nThis is an Android demo application for displaying the latest box office movies using the [Movie Database API](http://docs.themoviedb.apiary.io/#).\r\n\r\nTime spent: 5 hours spent in total\r\n\r\nCompleted user stories:\r\n\r\n * [x] Required: User can view a list of movies (title, poster image, and overview) currently playing in theaters from the Movie Database API.\r\n   ** Displays a default placeholder graphic for each image during loading\r\n   ** User can pull-to-refresh the popular stream with SwipeRefreshLayout\r\n * [x] Required: Lists should be fully optimized for performance with the ViewHolder pattern. \r\n * [x] Required: Views should be responsive for both landscape/portrait mode.\r\n   ** In portrait mode, the poster image, title, and movie overview is shown.\r\n   ** In landscape mode, the rotated layout should use the backdrop image instead and show the title and movie overview to the right of it.\r\n \r\nNotes:\r\n\r\nWalkthrough of all user stories:\r\n\r\n![Video Walkthrough](flickster_demo.gif)\r\n\r\nGIF created with [LiceCap](http://www.cockos.com/licecap/).",
+  "note": "Don't delete this file! It's used internally to help with page regeneration."
+}
