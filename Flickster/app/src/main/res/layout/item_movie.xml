@@ -17,21 +17,25 @@
         android:layout_marginTop="24dp"
         android:id="@+id/ivMovieImage" />
 
+    <!--   android:textColor="#FEFEFE" -->
+    <!-- android:textAppearance="?android:attr/textAppearanceLarge" -->
+
     <TextView
         tools:text="Doctor Strange"
-        android:textColor="#FEFEFE"
+        style="@style/LargeFont.SeaShellColor"
         android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvTitle"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:layout_alignTop="@+id/ivMovieImage"
         android:layout_toRightOf="@+id/ivMovieImage"
         android:layout_toEndOf="@+id/ivMovieImage" />
 
+    <!-- android:textColor="#8E8E8E" -->
+
     <TextView
         tools:text="After his career is destroyed, a brilliant but arrogant surgeon gets a new lease on life when a sorcerer takes him under his wing and trains him to defend the world against evil."
-        android:textColor="#8E8E8E"
+        style="@style/RegularFont.StackColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvOverview"

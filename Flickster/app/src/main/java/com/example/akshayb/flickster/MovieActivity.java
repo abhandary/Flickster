@@ -1,9 +1,12 @@
 package com.example.akshayb.flickster;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.akshayb.flickster.adapters.MovieArrayAdapter;
@@ -30,6 +33,11 @@ public class MovieActivity extends AppCompatActivity {
     ListView lvItems;
     private SwipeRefreshLayout swipeContainer;
 
+    private static final int     SHOW_MOVIE_DETAIL_REQUEST = 1;
+    private static final String  SELECTED_MOVIE  = "SELECTED_MOVIE";
+    private static final String  SELECTED_POSISTION  = "SELECTED_POSISTION";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +56,25 @@ public class MovieActivity extends AppCompatActivity {
         movieArrayAdapter = new MovieArrayAdapter(this, movies);
         lvItems.setAdapter(movieArrayAdapter);
 
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                taskSelected(i);
+            }
+        });
+
+
         fetchMovies();
     }
+
+    private void taskSelected(int posistion) {
+        Movie movie = movies.get(posistion);
+        Intent intent = new Intent(MovieActivity.this, MovieDetailActivity.class);
+        intent.putExtra(SELECTED_MOVIE, movie);
+        intent.putExtra(SELECTED_POSISTION, posistion);
+        startActivityForResult(intent, SHOW_MOVIE_DETAIL_REQUEST);
+    }
+
 
     private void fetchMovies() {
         String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
