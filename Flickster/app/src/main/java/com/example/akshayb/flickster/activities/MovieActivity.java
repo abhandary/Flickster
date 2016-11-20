@@ -1,4 +1,4 @@
-package com.example.akshayb.flickster;
+package com.example.akshayb.flickster.activities;
 
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.akshayb.flickster.R;
 import com.example.akshayb.flickster.adapters.MovieArrayAdapter;
 import com.example.akshayb.flickster.models.Movie;
 import com.loopj.android.http.AsyncHttpClient;
@@ -17,12 +18,11 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
-
-import static com.example.akshayb.flickster.models.Movie.fromJSONArray;
 
 public class MovieActivity extends AppCompatActivity {
 
@@ -35,7 +35,6 @@ public class MovieActivity extends AppCompatActivity {
 
     private static final int     SHOW_MOVIE_DETAIL_REQUEST = 1;
     private static final String  SELECTED_MOVIE  = "SELECTED_MOVIE";
-    private static final String  SELECTED_POSISTION  = "SELECTED_POSISTION";
 
 
     @Override
@@ -68,10 +67,10 @@ public class MovieActivity extends AppCompatActivity {
     }
 
     private void taskSelected(int posistion) {
+
         Movie movie = movies.get(posistion);
         Intent intent = new Intent(MovieActivity.this, MovieDetailActivity.class);
-        intent.putExtra(SELECTED_MOVIE, movie);
-        intent.putExtra(SELECTED_POSISTION, posistion);
+        intent.putExtra(SELECTED_MOVIE, Parcels.wrap(movie));
         startActivityForResult(intent, SHOW_MOVIE_DETAIL_REQUEST);
     }
 

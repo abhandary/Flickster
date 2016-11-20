@@ -7,12 +7,18 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:background">@color/colorRangoonGreen</item>
+        <item name="android:textColor">@color/colorSeaShell</item>
         <item name="android:listViewStyle">@style/Widget.ListView.Custom</item>
+        <item name="android:ratingBarStyle">@style/Widget.RatingBar.Custom</item>
     </style>
 
     <!-- This is the custom textview styles for this application -->
     <style name="Widget.ListView.Custom" parent="android:Widget.ListView">
         <item name="android:background">@color/colorRangoonGreen</item>
+    </style>
+
+    <style name="Widget.RatingBar.Custom" parent="android:Widget.RatingBar">
+        <item name="android:color">@color/colorSeaShell</item>
     </style>
 
 
@@ -22,19 +28,15 @@
     </style>
 
     <style name="LargeFont.SeaShellColor">
-        <item name="android:textColor">#FEFEFE</item>
+        <item name="android:textColor">@color/colorSeaShell</item>
     </style>
 
 
     <style name="RegularFont">
     </style>
 
-    <style name="RangoonGreenColor">
-        <item name="android:color">#191919</item>
-    </style>
-
     <style name="RegularFont.StackColor">
-        <item name="android:textColor">#8E8E8E</item>
+        <item name="android:textColor">@color/colorStack</item>
     </style>
 
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_movie_detail"
     android:layout_width="match_parent"
@@ -8,6 +9,63 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.akshayb.flickster.MovieDetailActivity">
+    tools:context="com.example.akshayb.flickster.activities.MovieDetailActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:scaleType="fitXY"
+        android:layout_marginTop="10dp"
+        android:id="@+id/ivPoster" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivPoster"
+        android:layout_alignLeft="@+id/ivPoster"
+        android:layout_alignStart="@+id/ivPoster"
+        android:layout_marginTop="26dp"
+        android:id="@+id/tvTitle"
+        style="@style/LargeFont.SeaShellColor"
+        tools:text="Hardcore Henry" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:id="@+id/tvReleaseDate"
+        android:layout_below="@+id/tvTitle"
+        android:layout_alignLeft="@+id/tvTitle"
+        android:layout_alignStart="@+id/tvTitle"
+        tools:text="Release Date:2016-04-07" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvReleaseDate"
+        android:layout_alignLeft="@+id/tvReleaseDate"
+        android:layout_alignStart="@+id/tvReleaseDate"
+        android:layout_marginTop="20dp"
+        android:id="@+id/rbMovieRating" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rbMovieRating"
+        android:layout_alignLeft="@+id/rbMovieRating"
+        android:layout_alignStart="@+id/rbMovieRating"
+        android:layout_marginTop="25dp"
+        android:id="@+id/tvSynopsis"
+        tools:text="Henry a new ressurected  cyborg who must save his wife" />
 </RelativeLayout>

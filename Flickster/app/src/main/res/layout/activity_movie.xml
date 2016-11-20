@@ -9,7 +9,7 @@
     android:paddingRight="10dp"
     android:paddingTop="10dp"
 
-    tools:context="com.example.akshayb.flickster.MovieActivity">
+    tools:context="com.example.akshayb.flickster.activities.MovieActivity">
 
     <android.support.v4.widget.SwipeRefreshLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
