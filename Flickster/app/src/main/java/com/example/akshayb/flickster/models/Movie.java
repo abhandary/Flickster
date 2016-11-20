@@ -2,12 +2,20 @@ package com.example.akshayb.flickster.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import cz.msebera.android.httpclient.Header;
+
+import static com.example.akshayb.flickster.R.id.swipeContainer;
 
 /**
  * Created by akshayb on 11/9/16.
@@ -32,6 +40,16 @@ public class Movie {
     private String originalTitle;
     private String overview;
     private double voteAverage;
+    private String id;
+    private String trailerURL;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getTrailerURL() {
+        return trailerURL;
+    }
 
     public String getReleaseDate() {
         return releaseDate;
@@ -57,6 +75,36 @@ public class Movie {
         this.backdropPath = jsonObject.getString("backdrop_path");
         this.voteAverage   = jsonObject.getDouble("vote_average");
         this.releaseDate   = jsonObject.getString("release_date");
+        this.id            = jsonObject.getString("id");
+        fetchMovieTrailerURL();
+    }
+
+    private void fetchMovieTrailerURL() {
+        String url = "https://api.themoviedb.org/3/movie/" + this.id + "/trailers?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        client.get(url, new JsonHttpResponseHandler(){
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                JSONArray movieJSONTrailers = null;
+
+                try {
+                    movieJSONTrailers = response.getJSONArray("youtube");
+                    if (movieJSONTrailers.length() > 0) {
+                        trailerURL = movieJSONTrailers.getJSONObject(0).getString("source");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
     }
 
     public static ArrayList<Movie> fromJSONArray(JSONArray jsonArray) {

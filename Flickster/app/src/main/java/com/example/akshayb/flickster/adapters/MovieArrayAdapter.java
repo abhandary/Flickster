@@ -39,6 +39,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
     private static class PopularMovieViewHolder {
         ImageView ivImage;
+        ImageView ivPlayButtonOverlay;
     }
 
     public MovieArrayAdapter(Context context,  List<Movie> objects) {
