@@ -22,12 +22,17 @@
 package com.example.akshayb.flickster.activities;
 
 import android.os.Bundle;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.akshayb.flickster.R;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by akshayb on 11/20/16.
@@ -38,15 +43,15 @@ public class QuickPlayActivity extends YouTubeBaseActivity {
     private static final String  SELECTED_MOVIE_TRAILER_URL = "SELECTED_MOVIE_TRAILER_URL";
     private static final String  API_KEY = "AIzaSyBabm9IhlRnW5J_S4vM6BmHO3SlrcFSYzI";
 
+    @BindView(R.id.player)  YouTubePlayerView youTubePlayerView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quick_play);
+        ButterKnife.bind(this);
 
         final String trailerSource = getIntent().getStringExtra(SELECTED_MOVIE_TRAILER_URL);
-
-        YouTubePlayerView youTubePlayerView =
-                (YouTubePlayerView) findViewById(R.id.player);
 
         youTubePlayerView.initialize(API_KEY,
                 new YouTubePlayer.OnInitializedListener() {
@@ -59,7 +64,7 @@ public class QuickPlayActivity extends YouTubeBaseActivity {
                         youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
                             @Override
                             public void onLoading() {
-
+                                // required implementation
                             }
 
                             @Override
@@ -69,29 +74,29 @@ public class QuickPlayActivity extends YouTubeBaseActivity {
 
                             @Override
                             public void onAdStarted() {
-
+                                // required implementation
                             }
 
                             @Override
                             public void onVideoStarted() {
-
+                                // required implementation
                             }
 
                             @Override
                             public void onVideoEnded() {
-
+                                // required implementation
                             }
 
                             @Override
                             public void onError(YouTubePlayer.ErrorReason errorReason) {
-
+                                Toast.makeText(getApplicationContext(), "Video Playback Failed", Toast.LENGTH_SHORT);
                             }
                         });
                     }
                     @Override
                     public void onInitializationFailure(YouTubePlayer.Provider provider,
                                                         YouTubeInitializationResult youTubeInitializationResult) {
-
+                        Toast.makeText(getApplicationContext(), "Video Player Failed to Initialize", Toast.LENGTH_SHORT);
                     }
                 });
     }

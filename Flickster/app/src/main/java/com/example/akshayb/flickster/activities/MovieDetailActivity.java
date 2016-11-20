@@ -35,14 +35,17 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class MovieDetailActivity extends AppCompatActivity {
 
-    ImageView   ivPoster;
-    TextView    tvTitle;
-    RatingBar   rbRating;
-    TextView    tvReleaseDate;
-    TextView    tvSynopsis;
-    ImageView   ivPlayButton;
+    @BindView(R.id.ivPoster)      ImageView   ivPoster;
+    @BindView(R.id.tvTitle)       TextView    tvTitle;
+    @BindView(R.id.rbMovieRating) RatingBar   rbRating;
+    @BindView(R.id.tvReleaseDate) TextView    tvReleaseDate;
+    @BindView(R.id.tvSynopsis)    TextView    tvSynopsis;
+    @BindView(R.id.ivVideoPreviewPlayButton) ImageView   ivPlayButton;
 
     Movie movie;
 
@@ -54,19 +57,15 @@ public class MovieDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
+        ButterKnife.bind(this);
 
         movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(SELECTED_MOVIE));
         setupViews();
     }
 
     private void setupViews() {
-        ivPoster = (ImageView) findViewById(R.id.ivPoster);
-        tvTitle  = (TextView) findViewById(R.id.tvTitle);
-        rbRating  = (RatingBar) findViewById(R.id.rbMovieRating);
-        tvReleaseDate  = (TextView) findViewById(R.id.tvReleaseDate);
-        tvSynopsis  = (TextView) findViewById(R.id.tvSynopsis);
-        ivPlayButton  = (ImageView) findViewById(R.id.ivVideoPreviewPlayButton);
 
+        // populate the views
         Picasso.with(getApplicationContext()).load(movie.getBackdropPath()).into(ivPoster);
         tvTitle.setText(movie.getOriginalTitle());
         tvSynopsis.setText(movie.getOverview());
