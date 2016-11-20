@@ -51,10 +51,41 @@ public class QuickPlayActivity extends YouTubeBaseActivity {
                 new YouTubePlayer.OnInitializedListener() {
                     @Override
                     public void onInitializationSuccess(YouTubePlayer.Provider provider,
-                                                        YouTubePlayer youTubePlayer, boolean b) {
+                                                        final YouTubePlayer youTubePlayer, boolean b) {
 
                         // do any work here to cue video, play video, etc.
                         youTubePlayer.cueVideo(trailerSource);
+                        youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                            @Override
+                            public void onLoading() {
+
+                            }
+
+                            @Override
+                            public void onLoaded(String s) {
+                                youTubePlayer.play();
+                            }
+
+                            @Override
+                            public void onAdStarted() {
+
+                            }
+
+                            @Override
+                            public void onVideoStarted() {
+
+                            }
+
+                            @Override
+                            public void onVideoEnded() {
+
+                            }
+
+                            @Override
+                            public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                            }
+                        });
                     }
                     @Override
                     public void onInitializationFailure(YouTubePlayer.Provider provider,
