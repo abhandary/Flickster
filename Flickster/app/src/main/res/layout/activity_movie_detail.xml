@@ -11,28 +11,48 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.akshayb.flickster.activities.MovieDetailActivity">
 
-    <ImageView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        app:srcCompat="@mipmap/ic_launcher"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
-        android:scaleType="fitXY"
+        android:id="@+id/glPoster"
         android:layout_marginTop="10dp"
-        android:id="@+id/ivPoster" />
+        android:layout_height="180dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@mipmap/ic_launcher"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:scaleType="fitXY"
+            android:id="@+id/ivPoster" />
+
+        <ImageView
+            android:id="@+id/ivVideoPreviewPlayButton"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:background="@null"
+            android:src="@mipmap/play_button_overlay" />
+    </FrameLayout>
 
     <TextView
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivPoster"
-        android:layout_alignLeft="@+id/ivPoster"
-        android:layout_alignStart="@+id/ivPoster"
+        android:layout_below="@+id/glPoster"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="26dp"
         android:id="@+id/tvTitle"
         style="@style/LargeFont.SeaShellColor"
@@ -43,9 +63,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="26dp"
+        android:layout_alignLeft="@+id/tvTitle"
         android:id="@+id/tvReleaseDate"
         android:layout_below="@+id/tvTitle"
-        android:layout_alignLeft="@+id/tvTitle"
         android:layout_alignStart="@+id/tvTitle"
         tools:text="Release Date:2016-04-07" />
 

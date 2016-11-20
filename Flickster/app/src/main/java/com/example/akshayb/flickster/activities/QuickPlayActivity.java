@@ -36,6 +36,7 @@ import com.google.android.youtube.player.YouTubePlayerView;
 public class QuickPlayActivity extends YouTubeBaseActivity {
 
     private static final String  SELECTED_MOVIE_TRAILER_URL = "SELECTED_MOVIE_TRAILER_URL";
+    private static final String  API_KEY = "AIzaSyBabm9IhlRnW5J_S4vM6BmHO3SlrcFSYzI";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class QuickPlayActivity extends YouTubeBaseActivity {
         YouTubePlayerView youTubePlayerView =
                 (YouTubePlayerView) findViewById(R.id.player);
 
-        youTubePlayerView.initialize("YOUR API KEY",
+        youTubePlayerView.initialize(API_KEY,
                 new YouTubePlayer.OnInitializedListener() {
                     @Override
                     public void onInitializationSuccess(YouTubePlayer.Provider provider,

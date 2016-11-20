@@ -21,6 +21,7 @@
 
 package com.example.akshayb.flickster.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -41,10 +42,13 @@ public class MovieDetailActivity extends AppCompatActivity {
     RatingBar   rbRating;
     TextView    tvReleaseDate;
     TextView    tvSynopsis;
+    ImageView   ivPlayButton;
 
     Movie movie;
 
+    private static final int     SHOW_MOVIE_TRAILER_REQUEST = 2;
     private static final String  SELECTED_MOVIE  = "SELECTED_MOVIE";
+    private static final String  SELECTED_MOVIE_TRAILER_URL = "SELECTED_MOVIE_TRAILER_URL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +65,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         rbRating  = (RatingBar) findViewById(R.id.rbMovieRating);
         tvReleaseDate  = (TextView) findViewById(R.id.tvReleaseDate);
         tvSynopsis  = (TextView) findViewById(R.id.tvSynopsis);
+        ivPlayButton  = (ImageView) findViewById(R.id.ivVideoPreviewPlayButton);
 
         Picasso.with(getApplicationContext()).load(movie.getBackdropPath()).into(ivPoster);
         tvTitle.setText(movie.getOriginalTitle());
@@ -68,5 +73,15 @@ public class MovieDetailActivity extends AppCompatActivity {
         tvReleaseDate.setText("Release Date: " + movie.getReleaseDate());
         double vote = movie.getVoteAverage() / 2.0;
         rbRating.setNumStars((int) vote);
+
+        // set up listerner for handling clicks on the play button.
+        ivPlayButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MovieDetailActivity.this, QuickPlayActivity.class);
+                intent.putExtra(SELECTED_MOVIE_TRAILER_URL, movie.getTrailerURL());
+                startActivityForResult(intent, SHOW_MOVIE_TRAILER_REQUEST);
+            }
+        });
     }
 }

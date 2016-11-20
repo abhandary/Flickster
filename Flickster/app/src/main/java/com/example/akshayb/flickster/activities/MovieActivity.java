@@ -55,6 +55,7 @@ public class MovieActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
 
     private static final int     SHOW_MOVIE_DETAIL_REQUEST = 1;
+    private static final int     SHOW_MOVIE_TRAILER_REQUEST = 2;
     private static final String  SELECTED_MOVIE  = "SELECTED_MOVIE";
     private static final String  SELECTED_MOVIE_TRAILER_URL = "SELECTED_MOVIE_TRAILER_URL";
 
@@ -93,7 +94,7 @@ public class MovieActivity extends AppCompatActivity {
         if (movie.getVoteAverage() >= 5 && movie.getTrailerURL() != null) {
             Intent intent = new Intent(MovieActivity.this, QuickPlayActivity.class);
             intent.putExtra(SELECTED_MOVIE_TRAILER_URL, movie.getTrailerURL());
-            startActivityForResult(intent, SHOW_MOVIE_DETAIL_REQUEST);
+            startActivityForResult(intent, SHOW_MOVIE_TRAILER_REQUEST);
         } else {
             Intent intent = new Intent(MovieActivity.this, MovieDetailActivity.class);
             intent.putExtra(SELECTED_MOVIE, Parcels.wrap(movie));
