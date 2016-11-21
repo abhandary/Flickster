@@ -37,6 +37,7 @@ import org.parceler.Parcels;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -66,7 +67,10 @@ public class MovieDetailActivity extends AppCompatActivity {
     private void setupViews() {
 
         // populate the views
-        Picasso.with(getApplicationContext()).load(movie.getBackdropPath()).into(ivPoster);
+        Picasso.with(getApplicationContext())
+                .load(movie.getBackdropPath())
+                .transform(new RoundedCornersTransformation(10, 10))
+                .into(ivPoster);
         tvTitle.setText(movie.getOriginalTitle());
         tvSynopsis.setText(movie.getOverview());
         tvReleaseDate.setText("Release Date: " + movie.getReleaseDate());

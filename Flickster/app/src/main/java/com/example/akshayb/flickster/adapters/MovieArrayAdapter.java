@@ -38,6 +38,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
@@ -129,11 +130,17 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             if (orientation == ORIENTATION_LANDSCAPE) {
                 viewHolder.tvOverview.setMaxLines(4);
             }
-            Picasso.with(getContext()).load(movieImagePath).into(viewHolder.ivImage);
+            Picasso.with(getContext())
+                    .load(movieImagePath)
+                    .transform(new RoundedCornersTransformation(10, 10))
+                    .into(viewHolder.ivImage);
         } else {
             ImageOnlyMovieViewHolder viewHolder = (ImageOnlyMovieViewHolder) convertView.getTag();
             viewHolder.ivImage.setImageResource(0);
-            Picasso.with(getContext()).load(movieImagePath).into(viewHolder.ivImage);
+            Picasso.with(getContext())
+                    .load(movieImagePath)
+                    .transform(new RoundedCornersTransformation(10, 10))
+                    .into(viewHolder.ivImage);
         }
 
 

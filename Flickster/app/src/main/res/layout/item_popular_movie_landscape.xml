@@ -28,7 +28,7 @@
             android:id="@+id/VideoPreviewPlayButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
+            android:scaleType="fitCenter"
             android:layout_gravity="center_horizontal|bottom"
             android:src="@mipmap/play_button_overlay"
             android:background="@null" />
