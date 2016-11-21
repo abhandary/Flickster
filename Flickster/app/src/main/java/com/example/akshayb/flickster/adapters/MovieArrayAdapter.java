@@ -36,12 +36,10 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import static android.R.attr.orientation;
-import static android.R.attr.resource;
-import static android.R.attr.type;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
-import static com.example.akshayb.flickster.R.id.tvOverview;
-import static com.example.akshayb.flickster.R.id.tvTitle;
 
 /**
  * Created by akshayb on 11/9/16.
@@ -52,16 +50,24 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
     final static int kNotPopularMovies = 0;
     final static int kPopularMovies    = 1;
 
-    private static class MovieViewHolder {
-        ImageView   ivImage;
-        TextView    tvTitle;
-        TextView    tvOverview;
+    static class MovieViewHolder {
+        @BindView(R.id.ivMovieImage)    ImageView   ivImage;
+        @BindView(R.id.tvTitle)         TextView    tvTitle;
+        @BindView(R.id.tvOverview)      TextView    tvOverview;
+
+        public MovieViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 
-    private static class PopularMovieViewHolder {
-        ImageView ivImage;
-        ImageView ivPlayButtonOverlay;
+    static class ImageOnlyMovieViewHolder {
+        @BindView(R.id.ivMovieImage)   ImageView ivImage;
+
+        public ImageOnlyMovieViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
+
 
     public MovieArrayAdapter(Context context,  List<Movie> objects) {
         super(context, android.R.layout.simple_list_item_1, objects);
@@ -91,10 +97,12 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         // 2. check if we need a new view and can't reuse an existing view
         int type = getItemViewType(position);
 
-        // 3. if the view is not being reused, then get inflate the layout
+        // 3. if the view is not being reused then inflate the layout
         //    and attach a view holder to the inflated view.
         if (convertView == null) {
             convertView = getInflatedLayoutForType(type);
+            Object viewHolder = getViewHolderObjectForType(type, convertView);
+            convertView.setTag(viewHolder);
         }
 
         // 4. Get the orientation.
@@ -123,7 +131,7 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             }
             Picasso.with(getContext()).load(movieImagePath).into(viewHolder.ivImage);
         } else {
-            PopularMovieViewHolder viewHolder = (PopularMovieViewHolder) convertView.getTag();
+            ImageOnlyMovieViewHolder viewHolder = (ImageOnlyMovieViewHolder) convertView.getTag();
             viewHolder.ivImage.setImageResource(0);
             Picasso.with(getContext()).load(movieImagePath).into(viewHolder.ivImage);
         }
@@ -135,16 +143,16 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
     private Object getViewHolderObjectForType(int type, View convertView) {
         int orientation = getContext().getResources().getConfiguration().orientation;
-        if (type == kNotPopularMovies || (type == kPopularMovies && orientation == ORIENTATION_LANDSCAPE)) {
-            MovieViewHolder viewHolder = new MovieViewHolder();
-            viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
-            viewHolder.tvTitle = (TextView) convertView.findViewById(tvTitle);
-            viewHolder.tvOverview = (TextView) convertView.findViewById(tvOverview);
-            return viewHolder;
+
+        if (orientation == ORIENTATION_LANDSCAPE) {
+            return  new MovieViewHolder(convertView);
         } else {
-            PopularMovieViewHolder viewHolder = new PopularMovieViewHolder();
-            viewHolder.ivImage = (ImageView) convertView.findViewById(R.id.ivMovieImage);
-            return viewHolder;
+            // in portrait, only popular movies get the image only view holder
+            if (type == kPopularMovies) {
+                return new ImageOnlyMovieViewHolder(convertView);
+            } else {
+                return  new MovieViewHolder(convertView);
+            }
         }
     }
 
@@ -152,13 +160,20 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         View convertView;
         int orientation = getContext().getResources().getConfiguration().orientation;
-        if (type == kNotPopularMovies || (type == kPopularMovies && orientation == ORIENTATION_LANDSCAPE)) {
-            convertView = layoutInflater.inflate(R.layout.item_movie, null);
+        if (orientation == ORIENTATION_LANDSCAPE) {
+            if (type == kPopularMovies) {
+                convertView = layoutInflater.inflate(R.layout.item_popular_movie_landscape, null);
+            } else {
+                convertView = layoutInflater.inflate(R.layout.item_movie_landscape, null);
+            }
         } else {
-            convertView = layoutInflater.inflate(R.layout.item_popular, null);
+            if (type == kPopularMovies) {
+                convertView = layoutInflater.inflate(R.layout.item_popular_movie_portrait, null);
+            } else {
+                convertView = layoutInflater.inflate(R.layout.item_movie_portrait, null);
+            }
         }
-        Object viewHolder = getViewHolderObjectForType(type, convertView);
-        convertView.setTag(viewHolder);
+
         return convertView;
     }
 }
