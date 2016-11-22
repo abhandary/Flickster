@@ -1,5 +1,6 @@
 # Flickster
 
+
 This is an Android demo application for displaying the latest box office movies using the [Movie Database API](http://docs.themoviedb.apiary.io/#).
 
 Time spent: 15 hours spent in total
