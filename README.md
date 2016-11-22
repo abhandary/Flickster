@@ -11,8 +11,10 @@ Time spent: 15 hours spent in total
    ** User can pull-to-refresh the popular stream with SwipeRefreshLayout
  * [x] Required: Lists should be fully optimized for performance with the ViewHolder pattern. 
  * [x] Required: Views should be responsive for both landscape/portrait mode.
-   ** In portrait mode, the poster image, title, and movie overview is shown.
-   ** In landscape mode, the rotated layout should use the backdrop image instead and show the title and movie overview to the right of it.
+
+   * In portrait mode, the poster image, title, and movie overview is shown.
+
+   * In landscape mode, the rotated layout should use the backdrop image instead and show the title and movie overview to the right of it.
  * [x] Optional: Use Styles and Themes to keep your layout files clean of view styles
  * [ ] Optional: Improve the user interface through styling and coloring (1 to 5 points depending on the difficulty of UI improvements)
  * [x] Optional: For popular movies (i.e. a movie voted for more than 5 stars), the full backdrop image is displayed. Otherwise, a poster image, the movie title, and overview is listed. Use Heterogenous ListViews and use different ViewHolder layout files for popular movies and less popular ones.
