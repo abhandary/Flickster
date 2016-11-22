@@ -20,9 +20,12 @@ Time spent: 15 hours spent in total
  * [x] Optional: For popular movies (i.e. a movie voted for more than 5 stars), the full backdrop image is displayed. Otherwise, a poster image, the movie title, and overview is listed. Use Heterogenous ListViews and use different ViewHolder layout files for popular movies and less popular ones.
  * [x] Optional: Expose details of movie (ratings using RatingBar, popularity, and synopsis) in a separate activity.
  * [x] Stretch: Allow video posts to be played in full-screen using the YouTubePlayerView 
-   ** When clicking on a popular movie (i.e. a movie voted for more than 5 stars) the video should be played immediately.
-   ** Less popular videos rely on the details page which should show an image preview that can initiate playing a YouTube video.
-   ** Use the videos API to get trailer videos.
+
+   * When clicking on a popular movie (i.e. a movie voted for more than 5 stars) the video should be played immediately.
+
+   * Less popular videos rely on the details page which should show an image preview that can initiate playing a YouTube video.
+
+   * Use the videos API to get trailer videos.
  * [x] Stretch: Add a play icon overlay to popular movies to indicate that the movie can be played
  * [ ] Stretch: Leverage the data binding support module to bind data into one or more activity layout templates.
  * [x] Stretch: Switch to using retrolambda expressions to cleanup event handling blocks.
