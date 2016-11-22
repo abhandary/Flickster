@@ -41,6 +41,9 @@ import butterknife.ButterKnife;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 import okhttp3.OkHttpClient;
 
+import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
+import static java.security.AccessController.getContext;
+
 public class MovieDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.ivPoster)      ImageView   ivPoster;
@@ -60,7 +63,14 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_movie_detail);
+
+
+        int orientation = getApplicationContext().getResources().getConfiguration().orientation;
+        if (orientation == ORIENTATION_LANDSCAPE) {
+            setContentView(R.layout.activity_movie_detail_landscape);
+        } else {
+            setContentView(R.layout.activity_movie_detail);
+        }
         ButterKnife.bind(this);
 
         movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(SELECTED_MOVIE));

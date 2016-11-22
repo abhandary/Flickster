@@ -23,15 +23,27 @@
             android:layout_height="match_parent"
             android:id="@+id/ivMovieImage" />
 
+        <!--   android:src="@mipmap/play_button_overlay" -->
 
         <ImageView
             android:id="@+id/VideoPreviewPlayButton"
-            android:layout_width="match_parent"
+            android:layout_width="90dp"
             android:layout_height="match_parent"
             android:scaleType="fitCenter"
-            android:layout_gravity="center_horizontal|bottom"
-            android:src="@mipmap/play_button_overlay"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@drawable/ic_playback_button"
             android:background="@null" />
+
+        <ImageView
+            android:id="@+id/TriangePlayButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerInside"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:src="@drawable/ic_triangle"
+            android:background="@null" />
+
 
     </FrameLayout>
 
