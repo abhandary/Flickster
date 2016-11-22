@@ -27,8 +27,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.akshayb.flickster.R;
 import com.example.akshayb.flickster.adapters.MovieArrayAdapter;
@@ -41,9 +44,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class MovieActivity extends AppCompatActivity {
 
@@ -51,8 +62,8 @@ public class MovieActivity extends AppCompatActivity {
 
     ArrayList<Movie> movies;
     MovieArrayAdapter movieArrayAdapter;
-    ListView lvItems;
-    private SwipeRefreshLayout swipeContainer;
+    @BindView(R.id.lvMovies) ListView lvItems;
+    @BindView(R.id.swipeContainer) SwipeRefreshLayout swipeContainer;
 
     private static final int     SHOW_MOVIE_DETAIL_REQUEST = 1;
     private static final int     SHOW_MOVIE_TRAILER_REQUEST = 2;
@@ -63,8 +74,7 @@ public class MovieActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
-        lvItems = (ListView) findViewById(R.id.lvMovies);
-        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        ButterKnife.bind(this);
 
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -77,13 +87,9 @@ public class MovieActivity extends AppCompatActivity {
         movieArrayAdapter = new MovieArrayAdapter(this, movies);
         lvItems.setAdapter(movieArrayAdapter);
 
-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                taskSelected(i);
-            }
+        lvItems.setOnItemClickListener((adapterView, view, i, l) -> {
+            taskSelected(i);
         });
-
 
         fetchMovies();
     }
@@ -102,32 +108,52 @@ public class MovieActivity extends AppCompatActivity {
         }
     }
 
+    private void setRefreshingFalseOnUIThread() {
+        MovieActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                swipeContainer.setRefreshing(false);
+            }
+        });
+    }
+
+    private void notifyArrayAdapterDataSetChangedOnUIThread(final ArrayAdapter adapter) {
+        MovieActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter.notifyDataSetChanged();
+            }
+        });
+    }
 
     private void fetchMovies() {
-        String url = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
-        AsyncHttpClient client = new AsyncHttpClient();
 
-        client.get(url, new JsonHttpResponseHandler(){
+        final String MOVIE_DB_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(MOVIE_DB_URL)
+                .build();
+
+        movies.clear();
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONArray movieJSONResults = null;
+            public void onResponse(Call call, final Response response) throws IOException {
 
                 try {
-                    movies.clear();
-                    movieJSONResults = response.getJSONArray("results");
+                    String responseData = response.body().string();
+                    JSONObject json = new JSONObject(responseData);
+                    JSONArray movieJSONResults = json.getJSONArray("results");
                     movies.addAll(Movie.fromJSONArray(movieJSONResults));
-                    movieArrayAdapter.notifyDataSetChanged();
-                    swipeContainer.setRefreshing(false);
+                    notifyArrayAdapterDataSetChangedOnUIThread(movieArrayAdapter);
+                    setRefreshingFalseOnUIThread();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d(TAG, movies.toString());
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
-                swipeContainer.setRefreshing(false);
+            public void onFailure(Call call, IOException e) {
+                setRefreshingFalseOnUIThread();
             }
         });
     }

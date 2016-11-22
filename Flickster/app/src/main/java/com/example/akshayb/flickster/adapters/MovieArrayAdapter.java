@@ -32,6 +32,8 @@ import android.widget.TextView;
 
 import com.example.akshayb.flickster.R;
 import com.example.akshayb.flickster.models.Movie;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -39,6 +41,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+import okhttp3.OkHttpClient;
 
 import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 
@@ -50,6 +53,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
     final static int kNotPopularMovies = 0;
     final static int kPopularMovies    = 1;
+
+    Picasso picasso;
 
     static class MovieViewHolder {
         @BindView(R.id.ivMovieImage)    ImageView   ivImage;
@@ -72,6 +77,8 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
 
     public MovieArrayAdapter(Context context,  List<Movie> objects) {
         super(context, android.R.layout.simple_list_item_1, objects);
+        OkHttpClient client = new OkHttpClient();
+        picasso = new Picasso.Builder(context).downloader(new OkHttp3Downloader(client)).build();
     }
 
     @Override
@@ -130,15 +137,13 @@ public class MovieArrayAdapter extends ArrayAdapter<Movie> {
             if (orientation == ORIENTATION_LANDSCAPE) {
                 viewHolder.tvOverview.setMaxLines(4);
             }
-            Picasso.with(getContext())
-                    .load(movieImagePath)
+            picasso.load(movieImagePath)
                     .transform(new RoundedCornersTransformation(10, 10))
                     .into(viewHolder.ivImage);
         } else {
             ImageOnlyMovieViewHolder viewHolder = (ImageOnlyMovieViewHolder) convertView.getTag();
             viewHolder.ivImage.setImageResource(0);
-            Picasso.with(getContext())
-                    .load(movieImagePath)
+            picasso.load(movieImagePath)
                     .transform(new RoundedCornersTransformation(10, 10))
                     .into(viewHolder.ivImage);
         }

@@ -32,9 +32,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import static com.example.akshayb.flickster.R.id.swipeContainer;
 
@@ -101,29 +107,33 @@ public class Movie {
     }
 
     private void fetchMovieTrailerURL() {
+
         String url = "https://api.themoviedb.org/3/movie/" + this.id + "/trailers?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
-        AsyncHttpClient client = new AsyncHttpClient();
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
 
-        client.get(url, new JsonHttpResponseHandler(){
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                JSONArray movieJSONTrailers = null;
+            public void onResponse(Call call, final Response response) throws IOException {
 
                 try {
-                    movieJSONTrailers = response.getJSONArray("youtube");
+                    String responseData = response.body().string();
+                    JSONObject json = new JSONObject(responseData);
+                    JSONArray movieJSONTrailers =  json.getJSONArray("youtube");
                     if (movieJSONTrailers.length() > 0) {
                         trailerURL = movieJSONTrailers.getJSONObject(0).getString("source");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
 
             @Override
-            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-                super.onFailure(statusCode, headers, responseString, throwable);
+            public void onFailure(Call call, IOException e) {
+
             }
         });
     }

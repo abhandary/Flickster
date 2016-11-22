@@ -31,6 +31,7 @@ import android.widget.TextView;
 
 import com.example.akshayb.flickster.R;
 import com.example.akshayb.flickster.models.Movie;
+import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
@@ -38,6 +39,7 @@ import org.parceler.Parcels;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+import okhttp3.OkHttpClient;
 
 public class MovieDetailActivity extends AppCompatActivity {
 
@@ -50,6 +52,7 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     Movie movie;
 
+
     private static final int     SHOW_MOVIE_TRAILER_REQUEST = 2;
     private static final String  SELECTED_MOVIE  = "SELECTED_MOVIE";
     private static final String  SELECTED_MOVIE_TRAILER_URL = "SELECTED_MOVIE_TRAILER_URL";
@@ -61,14 +64,16 @@ public class MovieDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         movie = (Movie) Parcels.unwrap(getIntent().getParcelableExtra(SELECTED_MOVIE));
+
         setupViews();
     }
 
     private void setupViews() {
 
+        OkHttpClient client = new OkHttpClient();
+        Picasso picasso = new Picasso.Builder(getApplicationContext()).downloader(new OkHttp3Downloader(client)).build();
         // populate the views
-        Picasso.with(getApplicationContext())
-                .load(movie.getBackdropPath())
+        picasso.load(movie.getBackdropPath())
                 .transform(new RoundedCornersTransformation(10, 10))
                 .into(ivPoster);
         tvTitle.setText(movie.getOriginalTitle());
@@ -78,13 +83,10 @@ public class MovieDetailActivity extends AppCompatActivity {
         rbRating.setNumStars((int) vote);
 
         // set up listerner for handling clicks on the play button.
-        ivPlayButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MovieDetailActivity.this, QuickPlayActivity.class);
-                intent.putExtra(SELECTED_MOVIE_TRAILER_URL, movie.getTrailerURL());
-                startActivityForResult(intent, SHOW_MOVIE_TRAILER_REQUEST);
-            }
+        ivPlayButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MovieDetailActivity.this, QuickPlayActivity.class);
+            intent.putExtra(SELECTED_MOVIE_TRAILER_URL, movie.getTrailerURL());
+            startActivityForResult(intent, SHOW_MOVIE_TRAILER_REQUEST);
         });
     }
 }
